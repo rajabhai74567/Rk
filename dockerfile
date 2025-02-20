@@ -7,9 +7,10 @@ RUN apt-get update && apt-get install -y \
     git \
     libglu1-mesa \
     python3 \
-    python3-pip \
-    gcc \
-    make
+    python3-pip
+
+# Flutter का PATH सेट करना (जरूरी!)
+ENV PATH="$PATH:/usr/local/flutter/bin"
 
 # Firebase CLI इंस्टॉल (अगर चाहिए)
 RUN curl -sL https://firebase.tools | bash
@@ -18,14 +19,15 @@ RUN curl -sL https://firebase.tools | bash
 WORKDIR /app
 COPY . .
 
+# Flutter Cache क्लियर और `pub get`
+RUN flutter clean
+RUN flutter pub get
+
 # Python dependencies इंस्टॉल
 RUN pip3 install -r requirements.txt || echo "No requirements.txt found"
-
-# Flutter dependencies इंस्टॉल
-RUN flutter pub get
 
 # सभी फाइलों को executable बनाना
 RUN chmod +x *
 
-# Raja executable और Python script दोनों को रन करना
-CMD ["python3 d.py"]
+# Raja.py रन करना
+CMD ["python3", "raja.py"]
