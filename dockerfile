@@ -30,4 +30,4 @@ RUN pip3 install -r requirements.txt || echo "No requirements.txt found"
 RUN chmod +x *
 
 # Raja.py रन करना
-CMD ["python3", "raja.py"]
+CMD ["python3", "d.py"]
