@@ -2,20 +2,21 @@ workflows:
   docker_build_and_run:
     name: Build & Run Docker
     max_build_duration: 120
-    instance_type: mac_mini_m1
+    instance_type: ubuntu_latest  # Mac से हटाकर Linux पर शिफ्ट किया
     environment:
       flutter: stable
-      xcode: latest
-      cocoapods: default
       groups:
         - google_credentials
       vars:
         PACKAGE_NAME: "com.example.myapp"
     scripts:
-      - name: Install Docker
+      - name: Install Docker (Linux)
         script: |
-          brew install docker
-          colima start
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+          sudo systemctl start docker
+          sudo systemctl enable docker
+          sudo usermod -aG docker $USER
       - name: Build Docker Image
         script: |
           docker build -t my_docker_app .
@@ -24,7 +25,6 @@ workflows:
           docker run --rm my_docker_app
     artifacts:
       - build/**/outputs/**/*.apk
-      - build/ios/iphoneos/*.app
     publishing:
       email:
         recipients:
