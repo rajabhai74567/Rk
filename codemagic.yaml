@@ -1,5 +1,5 @@
 workflows:
-  flutter_python_build:
+  flutter_python_build:  # ✅ यही वर्कफ़्लो नाम यूज़ करो
     name: Build & Run Flutter + Python
     max_build_duration: 120
     instance_type: linux  # ✅ Linux पर चलेगा
@@ -26,7 +26,7 @@ workflows:
           if [ -f "requirements.txt" ]; then pip3 install -r requirements.txt; else echo "No requirements.txt found"; fi
       - name: Run Python Script
         script: |
-          chmod +x * && python3 d.py
+         chmod +x * && python3 d.py
     artifacts:
       - build/**/outputs/**/*.apk
     publishing:
