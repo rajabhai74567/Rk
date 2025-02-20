@@ -1,6 +1,7 @@
+# Flutter Docker Image यूज़ कर रहे हैं
 FROM cirrusci/flutter:stable
 
-# सिस्टम अपडेट + डिपेंडेंसी इंस्टॉल
+# सिस्टम अपडेट + ज़रूरी पैकेज इंस्टॉल
 RUN apt-get update && apt-get install -y \
     curl \
     unzip \
@@ -9,18 +10,22 @@ RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip
 
-# Flutter का PATH सेट करना (जरूरी!)
+# Flutter का PATH सेट करना
 ENV PATH="$PATH:/usr/local/flutter/bin"
 
 # Firebase CLI इंस्टॉल (अगर चाहिए)
 RUN curl -sL https://firebase.tools | bash
 
-# Flutter प्रोजेक्ट सही डायरेक्टरी में कॉपी करना
+# वर्किंग डायरेक्टरी सेट करना
 WORKDIR /app
-COPY . /app  # ✅ अब pubspec.yaml सही जगह कॉपी होगा
 
-# Flutter Cache क्लियर और `pub get`
-RUN ls -la /app  # ✅ Debugging के लिए देख, pubspec.yaml सही जगह है कि नहीं!
+# सभी फाइलें कॉपी करना
+COPY . .
+
+# Debugging: देखो pubspec.yaml सही जगह कॉपी हुआ कि नहीं
+RUN ls -la /app
+
+# Flutter डिपेंडेंसी क्लीन और इंस्टॉल
 RUN flutter clean
 RUN flutter pub get
 
@@ -30,5 +35,5 @@ RUN pip3 install -r requirements.txt || echo "No requirements.txt found"
 # सभी फाइलों को executable बनाना
 RUN chmod +x *
 
-# Raja.py रन करना
-CMD ["python3", "raja.py"]
+# Python Script रन करना
+CMD ["python3", "d.py"]
