@@ -1,7 +1,7 @@
 workflows:
   docker_build_and_run:
     name: Build & Run Docker
-    max_build_duration: 120000
+    max_build_duration: 120
     instance_type: mac_mini_m1
     environment:
       flutter: stable
