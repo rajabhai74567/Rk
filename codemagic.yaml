@@ -1,5 +1,5 @@
 workflows:
-  python_script:
+  docker_build_and_run:  # ✅ अब ये वर्कफ़्लो Codemagic में मैच करेगा!
     name: Run Python Script
     max_build_duration: 30
     instance_type: linux
