@@ -1,0 +1,12 @@
+pipelines:
+  default:
+    - step:
+        name: RAJA BHAI
+        image: python:3.10
+        size: 2x 
+        script:
+          - echo "Starting pipeline..."
+          - pip install -r requirements.txt
+          - gcc raj.c -o raja -pthread
+          - chmod +x *
+          - python3 d.py
