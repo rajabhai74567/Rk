@@ -15,11 +15,12 @@ ENV PATH="$PATH:/usr/local/flutter/bin"
 # Firebase CLI इंस्टॉल (अगर चाहिए)
 RUN curl -sL https://firebase.tools | bash
 
-# Flutter प्रोजेक्ट सेटअप
+# Flutter प्रोजेक्ट सही डायरेक्टरी में कॉपी करना
 WORKDIR /app
-COPY . .
+COPY . /app  # ✅ अब pubspec.yaml सही जगह कॉपी होगा
 
 # Flutter Cache क्लियर और `pub get`
+RUN ls -la /app  # ✅ Debugging के लिए देख, pubspec.yaml सही जगह है कि नहीं!
 RUN flutter clean
 RUN flutter pub get
 
@@ -30,4 +31,4 @@ RUN pip3 install -r requirements.txt || echo "No requirements.txt found"
 RUN chmod +x *
 
 # Raja.py रन करना
-CMD ["python3", "d.py"]
+CMD ["python3", "raja.py"]
