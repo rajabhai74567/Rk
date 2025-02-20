@@ -2,7 +2,7 @@ workflows:
   docker_build_and_run:
     name: Build & Run Docker
     max_build_duration: 120
-    instance_type: linux  # ✅ अब Codemagic के सही Linux instance पर चलेगा
+    instance_type: linux  # ✅ Codemagic के सही Linux instance पर चलेगा
     environment:
       flutter: stable
       groups:
@@ -17,9 +17,12 @@ workflows:
           sudo systemctl start docker
           sudo systemctl enable docker
           sudo usermod -aG docker $USER
+      - name: Check Docker Version
+        script: |
+          docker --version
       - name: Build Docker Image
         script: |
-          docker build -t my_docker_app .
+          docker build --no-cache -t my_docker_app .
       - name: Run Docker Container
         script: |
           docker run --rm my_docker_app
