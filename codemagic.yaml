@@ -1,0 +1,31 @@
+workflows:
+  docker_build_and_run:
+    name: Build & Run Docker
+    max_build_duration: 120000
+    instance_type: mac_mini_m1
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      groups:
+        - google_credentials
+      vars:
+        PACKAGE_NAME: "com.example.myapp"
+    scripts:
+      - name: Install Docker
+        script: |
+          brew install docker
+          colima start
+      - name: Build Docker Image
+        script: |
+          docker build -t my_docker_app .
+      - name: Run Docker Container
+        script: |
+          docker run --rm my_docker_app
+    artifacts:
+      - build/**/outputs/**/*.apk
+      - build/ios/iphoneos/*.app
+    publishing:
+      email:
+        recipients:
+          - your_email@example.com
