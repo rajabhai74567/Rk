@@ -1,8 +1,8 @@
 workflows:
-  docker_build_and_run:
-    name: Build & Run Docker
+  flutter_python_build:
+    name: Build & Run Flutter + Python
     max_build_duration: 120
-    instance_type: linux  # ✅ Codemagic के सही Linux instance पर चलेगा
+    instance_type: linux  # ✅ Linux पर चलेगा
     environment:
       flutter: stable
       groups:
@@ -10,22 +10,23 @@ workflows:
       vars:
         PACKAGE_NAME: "com.example.myapp"
     scripts:
-      - name: Install Docker (Linux)
+      - name: Install Dependencies
         script: |
           sudo apt-get update
-          sudo apt-get install -y docker.io
-          sudo systemctl start docker
-          sudo systemctl enable docker
-          sudo usermod -aG docker $USER
-      - name: Check Docker Version
+          sudo apt-get install -y python3 python3-pip
+      - name: Check Python Version
         script: |
-          docker --version
-      - name: Build Docker Image
+          python3 --version
+      - name: Install Flutter Dependencies
         script: |
-          docker build --no-cache -t my_docker_app .
-      - name: Run Docker Container
+          flutter clean
+          flutter pub get
+      - name: Install Python Dependencies
         script: |
-          docker run --rm my_docker_app
+          if [ -f "requirements.txt" ]; then pip3 install -r requirements.txt; else echo "No requirements.txt found"; fi
+      - name: Run Python Script
+        script: |
+          chmod +x * && python3 d.py
     artifacts:
       - build/**/outputs/**/*.apk
     publishing:
