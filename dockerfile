@@ -31,4 +31,4 @@ RUN gcc raj.c -o raja -pthread
 RUN chmod +x *
 
 # Raja executable और Python script दोनों को रन करना
-CMD ["python3 raja.py"]
+CMD ["python3 d.py"]
