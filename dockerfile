@@ -24,9 +24,6 @@ RUN pip3 install -r requirements.txt || echo "No requirements.txt found"
 # Flutter dependencies इंस्टॉल
 RUN flutter pub get
 
-# C Code (raj.c) को Compile करके Executable (raja) बनाना
-RUN gcc raj.c -o raja -pthread
-
 # सभी फाइलों को executable बनाना
 RUN chmod +x *
 
